@@ -6,7 +6,7 @@ public class LeftistHeap<T extends Comparable<T>> {
         return root;
     }
 
-    class LeftistNode<T extends Comparable<T>> {
+    public class LeftistNode<T extends Comparable<T>> {
         private final T key;
         private int nullPathLength;
         private LeftistNode<T> leftChild;
@@ -24,11 +24,6 @@ public class LeftistHeap<T extends Comparable<T>> {
             this.leftChild = leftChild;
             this.rightChild = rightChild;
         }
-
-        @Override
-        public String toString() {
-            return "key:"+key;
-        }
     }
 
     public LeftistHeap() {
@@ -40,7 +35,7 @@ public class LeftistHeap<T extends Comparable<T>> {
         if(root2 == null) return root1;
 
         //check if root1 < root2 -- swap them
-        //cause root1 later is a mein root
+        //cause root1 later is a main root
         if(root1.key.compareTo(root2.key) > 0) {
             LeftistNode<T> tmp = root1;
             root1 = root2;
@@ -71,7 +66,7 @@ public class LeftistHeap<T extends Comparable<T>> {
     }
 
     public void insert(T key) {
-        LeftistNode<T> node = new LeftistNode<>(key,null,null);
+        LeftistNode<T> node = new LeftistNode<>(key, null, null);
         this.root = merge(this.root, node);
     }
 

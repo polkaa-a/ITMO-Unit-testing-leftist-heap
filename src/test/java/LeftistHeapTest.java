@@ -1,16 +1,14 @@
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LeftistHeapTest {
 
-    static LeftistHeap<Integer> leftistHeap;
+    public LeftistHeap<Integer> leftistHeap;
 
     @BeforeEach
     public void setUp(){
@@ -33,15 +31,6 @@ public class LeftistHeapTest {
         assertNull(leftistHeap.getRoot().getRightChild());
         assertEquals(0, leftistHeap.getRoot().getNullPathLength());
         assertEquals(key, leftistHeap.getRoot().getKey());
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {
-            1, -13
-    })
-    public void toStringKeyValue(Integer key){
-        leftistHeap.insert(key);
-        assertTrue(leftistHeap.getRoot().toString().contains("key:" + key));
     }
 
     @Test
@@ -98,7 +87,7 @@ public class LeftistHeapTest {
 
     @Test
     public void mergeRoot1LessThanRoot2Root1RightChildIsNullNPLToZero(){
-        //check thar root.nlp is 0
+        //check thar root.npl is 0
         LeftistHeap<Integer> firstHeap = new LeftistHeap<>();
         LeftistHeap<Integer> secondHeap = new LeftistHeap<>();
 
@@ -139,18 +128,51 @@ public class LeftistHeapTest {
 
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "100,120,2147483646,-2147483647",
+            "1,2,3,4",
+            "0,-12298675,11,98532"
+    })
+    public void boundaryIntegerInputs(int node1, int node2, int node3, int node4){
+        LeftistHeap<Integer> firstHeap = new LeftistHeap<>();
+        LeftistHeap<Integer> secondHeap = new LeftistHeap<>();
+
+        Integer max = Integer.MAX_VALUE;
+        Integer min = Integer.MIN_VALUE;
+
+        firstHeap.insert(node1);
+        firstHeap.insert(node2);
+        firstHeap.insert(node3);
+        firstHeap.insert(node4);
+
+        secondHeap.insert(node1);
+        secondHeap.insert(node2);
+        secondHeap.insert(node3);
+        secondHeap.insert(node4);
+
+        firstHeap.insert(max);
+        secondHeap.insert(min);
+
+        for (int i = 0; i < 4; i++){
+            firstHeap.remove();
+        }
+
+        assertEquals(max, firstHeap.getRoot().getKey());
+        assertEquals(min, secondHeap.getRoot().getKey());
+    }
+
     @Test
     public void removeRootIsNull(){
-        //check that method return null
+        //check that method returns null
         LeftistHeap<Integer> firstHeap = new LeftistHeap<>();
-
         assertNull(firstHeap.remove());
     }
 
     @Test
     public void removeRootNotNull(){
         //check that min child is root now
-        //check that method return key of removed root
+        //check that method returns key of removed root
 
         LeftistHeap<Integer> firstHeap = new LeftistHeap<>();
 
